@@ -1,0 +1,15 @@
+.player {
+  padding: 15px;
+  background-color: lightcoral;
+  font-size: 24px;
+  border-radius: 7px;
+
+  .player-name {
+    text-align: center;
+  }
+
+  .player-footer {
+    font-size: 18px;
+    text-align: center;
+  }
+}

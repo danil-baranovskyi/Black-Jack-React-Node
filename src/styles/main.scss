@@ -1,0 +1,17 @@
+@import "reset";
+@import "player";
+@import "table";
+
+*, {
+  box-sizing: border-box;
+}
+body{
+  background: #b3d4fc;
+}
+
+.game {
+  max-width: 1470px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0 auto;
+}
