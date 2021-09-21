@@ -4,7 +4,7 @@ import {Game} from "./Game.js";
 export const App = () => {
   return (
       <React.Fragment>
-          <Game/>
+            <Game/>
       </React.Fragment>
   );
 };

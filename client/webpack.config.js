@@ -6,7 +6,7 @@ module.exports = {
     entry: './src/index.jsx',
     devtool: "eval-source-map",
     output: {
-        path: path.resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, '../server/static'),
         filename: 'bundle.js',
     },
     plugins: [

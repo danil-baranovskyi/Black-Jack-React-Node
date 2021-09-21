@@ -1,5 +1,5 @@
 import React from "react";
-import diamondSuit from "../img/diamondSuit.png";
+import diamondSuit from "../../../server/static/img/diamondSuit.png";
 
 export const Card = () => {
     return (
@@ -7,10 +7,9 @@ export const Card = () => {
             <div className="card-value-up">
                 2
             </div>
-            <img src={diamondSuit} alt="Suit"/>
+            <img src={diamondSuit} className="card-icon" alt="Suit"/>
             <div className="card-value-down">
-                2
-               123
+               2
             </div>
         </div>
     );
