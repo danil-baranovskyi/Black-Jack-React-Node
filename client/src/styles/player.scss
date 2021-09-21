@@ -4,11 +4,16 @@
   font-size: 24px;
   border-radius: 7px;
 
-  .player-name {
+  &-cards {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &-name {
     text-align: center;
   }
 
-  .player-footer {
+  &-footer {
     font-size: 18px;
     text-align: center;
   }

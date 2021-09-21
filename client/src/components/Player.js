@@ -1,14 +1,24 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {Card} from "./Card.js";
 
-export const Player = () => {
+const Player = ({name, id, cards}) => {
+    const drawCards = useMemo(() => {
+
+        let dCards = [];
+
+        for(let i = 0; i < cards.length; i++){
+            dCards.push(<Card icon={cards[i].icon} iconSrc={cards[i].src} key={i}/>)
+        }
+        return dCards;
+    }, [cards]);
+
     return (
         <div className="player">
             <h2 className="player-name">
-                ASD
+                {name}
             </h2>
             <div className="player-cards">
-                <Card />
+                {drawCards}
             </div>
             <footer className="player-footer">
                 <span className="player-score">
@@ -18,3 +28,5 @@ export const Player = () => {
         </div>
     );
 }
+
+export default Player;

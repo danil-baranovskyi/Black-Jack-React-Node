@@ -11,6 +11,10 @@
     border-radius: 12px;
     text-align: center;
 
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
     &-value-up {
       text-align: start;
     }

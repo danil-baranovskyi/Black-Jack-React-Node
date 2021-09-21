@@ -9,7 +9,12 @@ const initialState = {
 
 const handleDealSuccess = (state, {payload: {data}}) => {
     console.log(data)
-    return state;
+    return {
+        ...state,
+        players: data.players,
+        winners: data.winners,
+        currentPlayer: data.currentPlayer
+    };
 }
 
 const handleDealFail = (state, {payload: {data}}) => {
@@ -19,7 +24,12 @@ const handleDealFail = (state, {payload: {data}}) => {
 //=========
 const handleHitSuccess = (state, {payload: {data}}) => {
     console.log(data)
-    return state;
+    return {
+        ...state,
+        players: data.players,
+        winners: data.winners,
+        currentPlayer: data.currentPlayer
+    };
 }
 
 const handleHitFail = (state, {payload: {data}}) => {
@@ -30,7 +40,12 @@ const handleHitFail = (state, {payload: {data}}) => {
 
 const handleStandSuccess = (state, {payload: {data}}) => {
     console.log(data)
-    return state;
+    return {
+        ...state,
+        players: data.players,
+        winners: data.winners,
+        currentPlayer: data.currentPlayer
+    };
 }
 
 const handleStandFail = (state, {payload: {data}}) => {
