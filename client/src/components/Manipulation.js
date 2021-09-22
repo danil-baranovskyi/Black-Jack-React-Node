@@ -1,14 +1,18 @@
 import React from "react";
-import Deal from "./Deal.js";
 import Hit from "./Hit.js";
 import Stand from "./Stand.js";
+import Winner from "./Winner.js";
+import Reset from "./Reset.js";
 
 export const Manipulation = () => {
     return (
         <section className="manipulation">
-            <Deal/>
-            <Hit/>
-            <Stand/>
+            <div>
+                <Hit/>
+                <Stand/>
+                <Reset/>
+            </div>
+            <Winner/>
         </section>
     );
 }

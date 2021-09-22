@@ -16,3 +16,22 @@ body{
   padding-right: 15px;
   margin: 0 auto;
 }
+
+.loader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 10px;
+  background-color: lightgreen;
+
+  &--active {
+    width: 100%;
+    animation: loading 3s linear;
+  }
+}
+
+@keyframes loading {
+  0% { width: 0; }
+  100% { width: 100%;}
+}

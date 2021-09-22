@@ -6,18 +6,31 @@ export class Game {
         this.players = players;
         this.deck = shuffle(getDeck());
         this.currentPlayer = 0;
+
+        this.deal();
+    }
+
+    reset() {
+        this.currentPlayer = 0;
+        this.deck = shuffle(getDeck());
+        this.players.forEach((player) => {
+            player.cards = [];
+            player.score = 0;
+            return player;
+        });
+
+        this.deal();
     }
 
     deal() {
-        this.players.forEach(el => {
-            el.takeCard(this.deck);
-            el.takeCard(this.deck);
+        this.players.forEach(player => {
+            player.takeCard(this.deck);
+            player.takeCard(this.deck);
         })
     }
 
     hit() {
         if (this.currentPlayer === this.players.length) {
-            console.log("over")
             return;
         }
 
@@ -31,7 +44,9 @@ export class Game {
     }
 
     stand() {
-        this.currentPlayer++;
+        if (this.currentPlayer < this.players.length) {
+            this.currentPlayer++;
+        }
     }
 
     winners() {
@@ -39,11 +54,21 @@ export class Game {
             return null;
         }
 
-        for (let j = 21; j >= 2; j--) {
-            const filtered = this.players.filter(player => player.score === j);
-            if(filtered.length > 0) {
-                return filtered;
+        const scores = {};
+        for (let i = 0; i < this.players.length; i++) {
+            if (!scores[this.players[i].score]) {
+                scores[this.players[i].score] = [];
             }
+
+            scores[this.players[i].score].push(i);
+        }
+
+        for (let j = 21; j >= 2; j--) {
+            if (!scores[j]) {
+                continue;
+            }
+
+            return scores[j];
         }
 
         return [];

@@ -17,4 +17,8 @@
     font-size: 18px;
     text-align: center;
   }
+
+  &--active, &--winner {
+    background-color: lightgreen;
+  }
 }

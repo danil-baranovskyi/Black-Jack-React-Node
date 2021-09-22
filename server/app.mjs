@@ -6,4 +6,6 @@ const app = new Koa();
 
 app.use(serve('./static'));
 app.use(router.routes());
-app.listen(3000);
+app.listen({
+    port: 4000
+});

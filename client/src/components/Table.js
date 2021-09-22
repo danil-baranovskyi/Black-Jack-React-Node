@@ -1,18 +1,23 @@
 import React, {useMemo} from "react";
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
-import {players} from "../store/game/selectors.js";
+import {currentPlayer, players, winners} from "../store/game/selectors.js";
 import Player from "./Player.js";
 
-const Table = ({players}) => {
+const Table = ({players, currentPlayer, winners}) => {
     const drawPlayers = useMemo(() => {
-        let dPlayers = [];
-
-        for(let i = 0; i < players.length; i++){
-            dPlayers.push(<Player name={players[i].name} key={i} id={i} cards={players[i].cards}/>)
-        }
-        return dPlayers;
-    }, [players]);
+        return players.map((player, i) => (
+            <Player
+                name={player.name}
+                key={i}
+                id={i}
+                cards={player.cards}
+                score={player.score}
+                isCurrentPlayer={player.isActive}
+                isWin={player.isWinner}
+            />
+        ));
+    }, [players, winners, currentPlayer]);
 
     return (
         <section className="table">
@@ -23,6 +28,8 @@ const Table = ({players}) => {
 
 const mapStateToProps = createStructuredSelector({
     players,
+    currentPlayer,
+    winners
 })
 
-export default connect(mapStateToProps,null)(Table)
+export default connect(mapStateToProps, null)(Table)

@@ -1,19 +1,30 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {hit} from "../store/game/actions.js";
 import {connect} from "react-redux";
+import {createStructuredSelector} from "reselect";
+import {isLoading, winners} from "../store/game/selectors.js";
 
-const Hit = ({hit}) => {
+const Hit = ({hit, winners, isLoading}) => {
+    const disabled = useMemo(() => {
+        return winners !== null || isLoading;
+    }, [winners, isLoading]);
+
     return (
         <React.Fragment>
-            <button className="manipulation-btn hit-btn" onClick={hit}>
+            <button className="manipulation-btn hit-btn" onClick={hit} disabled={disabled}>
                 Hit
             </button>
         </React.Fragment>
     );
 }
 
+const mapStateToProps = createStructuredSelector({
+    winners,
+    isLoading
+})
+
 const mapDispatchToProps = {
     hit,
 };
 
-export default connect(null, mapDispatchToProps)(Hit);
+export default connect(mapStateToProps, mapDispatchToProps)(Hit);

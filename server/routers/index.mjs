@@ -6,23 +6,31 @@ const router = new Router();
 
 const player1 = new Player("Danil");
 const player2 = new Player("Yan");
-const player3 = new Player("Sergei");
+const player3 = new Player("Yan");
 
 const game = new Game([player1, player2, player3]);
 
-router.get("/deal", (ctx) => {
-    game.deal();
+const games = {
+
+};
+
+router.get("/state", (ctx) => {
     ctx.body = game.getState();
 });
 
-router.get("/hit", (ctx) => {
+router.post("/hit", (ctx) => {
     game.hit();
     ctx.body = game.getState();
 })
 
-router.get("/stand", (ctx) => {
+router.post("/stand", (ctx) => {
     game.stand();
     ctx.body = game.getState();
 })
+
+router.post("/reset", (ctx) => {
+    game.reset();
+    ctx.body = game.getState();
+});
 
 export default router;

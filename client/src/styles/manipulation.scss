@@ -1,6 +1,14 @@
 .manipulation {
   padding-top: 50px;
   padding-bottom: 50px;
+  display: flex;
+  align-items: center;
+
+  .winner-wrapper {
+    font-size: 40px;
+    margin-left: 30%;
+    transform: translateX(50%);
+  }
 
   &-btn {
     width: 90px;
