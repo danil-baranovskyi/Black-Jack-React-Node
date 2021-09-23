@@ -17,6 +17,16 @@ export const isLoading = createSelector(
     state => state.isLoading
 );
 
+export const token = createSelector(
+    state,
+    state => state.token
+)
+
+export const playersCount = createSelector(
+    state,
+    state => state.playersCount
+)
+
 export const players = createSelector(
     state,
     state => state.players.map((player, i) => {

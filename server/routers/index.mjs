@@ -1,36 +1,73 @@
 import Router from "koa-router";
 import {Game} from "../game/structures/Game.mjs";
 import {Player} from "../game/structures/Player.mjs";
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from 'uuid';
 
 const router = new Router();
 
-const player1 = new Player("Danil");
-const player2 = new Player("Yan");
-const player3 = new Player("Yan");
+const games = {};
+const secKey = "ya ne loh, ya smogu";
 
-const game = new Game([player1, player2, player3]);
+const gameIdCheckByToken = (token) => {
+    const gameId = jwt.verify(token, secKey, {noTimestamp: true});
+    return Object.keys(games).includes(gameId.id);
+}
 
-const games = {
+const getIdFromToken = (token) => {
+    return jwt.verify(token, secKey).id;
+}
 
-};
+router.post("/start", (ctx) => {
+    let playersNames = ctx.request.body.playersNames;
+    const gameId = uuidv4();
+    games[gameId] = new Game(playersNames.map((playerName) => new Player(playerName)));
 
-router.get("/state", (ctx) => {
-    ctx.body = game.getState();
+    const token = jwt.sign({id: gameId}, secKey);
+    ctx.body = {
+        ...games[gameId].getState(),
+        token: token
+    };
+});
+
+
+router.post("/state", (ctx) => {
+    const token = ctx.request.body.token;
+    if(gameIdCheckByToken(token)) {
+        ctx.body = {
+            ...games[getIdFromToken(token)].getState()
+        }
+    }
 });
 
 router.post("/hit", (ctx) => {
-    game.hit();
-    ctx.body = game.getState();
+    const token = ctx.request.body.token;
+    if(gameIdCheckByToken(token)) {
+        games[getIdFromToken(token)].hit();
+        ctx.body = {
+            ...games[getIdFromToken(token)].getState()
+        }
+    }
 })
 
 router.post("/stand", (ctx) => {
-    game.stand();
-    ctx.body = game.getState();
+    const token = ctx.request.body.token;
+    if(gameIdCheckByToken(token)) {
+        games[getIdFromToken(token)].stand();
+        ctx.body = {
+            ...games[getIdFromToken(token)].getState()
+        }
+    }
 })
 
 router.post("/reset", (ctx) => {
-    game.reset();
-    ctx.body = game.getState();
+    const token = ctx.request.body.token;
+    if(gameIdCheckByToken(token)) {
+        games[getIdFromToken(token)].reset();
+        ctx.body = {
+            ...games[getIdFromToken(token)].getState()
+        }
+    }
 });
 
 export default router;

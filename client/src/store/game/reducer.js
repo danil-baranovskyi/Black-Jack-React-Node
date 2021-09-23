@@ -1,12 +1,40 @@
 import {handleActions} from "redux-actions";
-import {currentState, hit, reset, stand} from "./actions.js";
+import {currentState, decrementPlayersCount, gameStart, hit, incrementPlayersCount, reset, stand} from "./actions.js";
 
 const initialState = {
-    token: window.localStorage.getItem('token') || null,
+    token: localStorage.getItem('token') || null,
     isLoading: false,
     players : [],
     winners: null,
-    currentPlayer: null
+    currentPlayer: null,
+    playersCount: 0,
+}
+
+const handleGameStartSuccess = (state, {payload: {data}}) => {
+    localStorage.setItem("token", data.token);
+    return {
+        ...state,
+        ...data
+    }
+}
+
+const handleIncrementPlayersCount = (state) => {
+    let count = state.playersCount;
+    count++;
+    return {
+        ...state,
+        playersCount: count,
+        token: null,
+    }
+}
+
+const handleDecrementPlayersCount = (state) => {
+    let count = state.playersCount;
+    count > 0 ? count-- : count;
+    return {
+        ...state,
+        playersCount: count
+    }
 }
 
 const handleLoading = (state) => {
@@ -20,17 +48,14 @@ const handleCurrentStateSuccess = (state, {payload: {data}}) => {
     return {
         ...state,
         isLoading: false,
-        players: data.players,
-        winners: data.winners,
-        currentPlayer: data.currentPlayer
+        ...data
     };
 }
 
-const handleCurrentStateFail = (state, {payload: {data}}) => {
+const handleCurrentStateFail = (state, action) => {
     console.log("FAIL!!!")
     return {
         ...state,
-        isLoading: false,
     };
 }
 //=========
@@ -42,11 +67,10 @@ const handleHitSuccess = (state, {payload: {data}}) => {
     };
 }
 
-const handleHitFail = (state, {payload: {data}}) => {
+const handleHitFail = (state, action) => {
     console.log("FAIL!!!")
     return {
         ...state,
-        isLoading: false,
     };
 }
 //=========
@@ -61,11 +85,10 @@ const handleStandSuccess = (state, {payload: {data}}) => {
     };
 }
 
-const handleStandFail = (state, {payload: {data}}) => {
-    console.log("FAIL!!!")
+const handleStandFail = (state, action) => {
+    console.log(action)
     return {
         ...state,
-        isLoading: false,
     };
 }
 //========
@@ -83,6 +106,11 @@ const handleResetSuccess = (state, {payload: {data}}) => {
 //========
 const game = handleActions(
     {
+        [gameStart.success]: handleGameStartSuccess,
+
+        [incrementPlayersCount]: handleIncrementPlayersCount,
+        [decrementPlayersCount]: handleDecrementPlayersCount,
+
         [currentState]: handleLoading,
         [currentState.success]: handleCurrentStateSuccess,
         [currentState.fail]: handleCurrentStateFail,
@@ -97,6 +125,7 @@ const game = handleActions(
 
         [reset]: handleLoading,
         [reset.success]: handleResetSuccess,
+
     },
     initialState
 )

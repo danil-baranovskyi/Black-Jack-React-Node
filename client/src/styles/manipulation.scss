@@ -18,6 +18,10 @@
     font-size: 22px;
   }
 
+  &-btn:disabled {
+    opacity: 0.5;
+  }
+
   &-btn:not(:last-child) {
     margin-right: 15px;
   }
