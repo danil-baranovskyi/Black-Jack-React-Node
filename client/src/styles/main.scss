@@ -18,6 +18,18 @@ body{
   margin: 0 auto;
 }
 
+.error {
+  color: lightcoral;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.input-error {
+  color: lightcoral;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
 .loader {
   position: absolute;
   left: 0;
@@ -35,4 +47,49 @@ body{
 @keyframes loading {
   0% { width: 0; }
   100% { width: 100%;}
+}
+
+@media screen and  (max-width:400px){
+
+  .init-players-wrapper {
+    .player-name {
+      width: 210px;
+    }
+  }
+}
+
+@media screen and  (max-width:760px){
+  .player-cards {
+    justify-content: center;
+  }
+}
+
+@media screen and  (max-width:620px){
+  .manipulation {
+    flex-direction: column;
+    .winner-wrapper {
+      margin-top: 20px;
+    }
+  }
+}
+
+@media screen and  (max-width:540px){
+  .card {
+    margin: 0;
+  }
+
+  .table {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and  (max-width:350px){
+  .manipulation-btn {
+    width: 85px;
+    height: 85px;
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
 }

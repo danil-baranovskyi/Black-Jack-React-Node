@@ -7,7 +7,7 @@ import Reset from "./Reset.js";
 export const Manipulation = () => {
     return (
         <section className="manipulation">
-            <div>
+            <div className="manipulation-btn-wrapper">
                 <Hit/>
                 <Stand/>
                 <Reset/>

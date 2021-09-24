@@ -1,19 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
-import {incrementPlayersCount} from "../store/game/actions.js";
 
-const AddPlayer = ({incrementPlayersCount}) => {
+const AddPlayer = ({addNewPlayer}) => {
     return (
         <div className="add-player-wrapper">
-            <button className="add-player" onClick={incrementPlayersCount}>
+            <button className="add-player" onClick={addNewPlayer}>
                 Add New
             </button>
         </div>
     );
 }
 
-const mapDispatchToProps = {
-    incrementPlayersCount,
-}
-
-export default connect(null, mapDispatchToProps)(AddPlayer);
+export default connect(null, null)(AddPlayer);

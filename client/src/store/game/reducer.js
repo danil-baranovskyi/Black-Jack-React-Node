@@ -1,5 +1,5 @@
 import {handleActions} from "redux-actions";
-import {currentState, decrementPlayersCount, gameStart, hit, incrementPlayersCount, reset, stand} from "./actions.js";
+import {currentState,  gameStart, hit, reset, stand} from "./actions.js";
 
 const initialState = {
     token: localStorage.getItem('token') || null,
@@ -7,7 +7,6 @@ const initialState = {
     players : [],
     winners: null,
     currentPlayer: null,
-    playersCount: 0,
 }
 
 const handleGameStartSuccess = (state, {payload: {data}}) => {
@@ -18,29 +17,10 @@ const handleGameStartSuccess = (state, {payload: {data}}) => {
     }
 }
 
-const handleIncrementPlayersCount = (state) => {
-    let count = state.playersCount;
-    count++;
-    return {
-        ...state,
-        playersCount: count,
-        token: null,
-    }
-}
-
-const handleDecrementPlayersCount = (state) => {
-    let count = state.playersCount;
-    count > 0 ? count-- : count;
-    return {
-        ...state,
-        playersCount: count
-    }
-}
-
 const handleLoading = (state) => {
     return {
         ...state,
-        isLoading: true
+        isLoading: true,
     }
 };
 
@@ -53,7 +33,9 @@ const handleCurrentStateSuccess = (state, {payload: {data}}) => {
 }
 
 const handleCurrentStateFail = (state, action) => {
-    console.log("FAIL!!!")
+    console.log("FAIL!!!");
+    console.log(action)
+    localStorage.removeItem("token");
     return {
         ...state,
     };
@@ -68,7 +50,8 @@ const handleHitSuccess = (state, {payload: {data}}) => {
 }
 
 const handleHitFail = (state, action) => {
-    console.log("FAIL!!!")
+    console.log("FAIL!!!");
+    localStorage.removeItem("token");
     return {
         ...state,
     };
@@ -79,14 +62,13 @@ const handleStandSuccess = (state, {payload: {data}}) => {
     return {
         ...state,
         isLoading: false,
-        players: data.players,
-        winners: data.winners,
-        currentPlayer: data.currentPlayer
+        ...data
     };
 }
 
 const handleStandFail = (state, action) => {
-    console.log(action)
+    console.log("Fail");
+    localStorage.removeItem("token");
     return {
         ...state,
     };
@@ -97,9 +79,14 @@ const handleResetSuccess = (state, {payload: {data}}) => {
     return {
         ...state,
         isLoading: false,
-        players: data.players,
-        winners: data.winners,
-        currentPlayer: data.currentPlayer
+        ...data
+    };
+}
+
+const handleResetFail = (state) => {
+    localStorage.removeItem("token");
+    return {
+        ...state,
     };
 }
 
@@ -107,9 +94,6 @@ const handleResetSuccess = (state, {payload: {data}}) => {
 const game = handleActions(
     {
         [gameStart.success]: handleGameStartSuccess,
-
-        [incrementPlayersCount]: handleIncrementPlayersCount,
-        [decrementPlayersCount]: handleDecrementPlayersCount,
 
         [currentState]: handleLoading,
         [currentState.success]: handleCurrentStateSuccess,
@@ -125,6 +109,7 @@ const game = handleActions(
 
         [reset]: handleLoading,
         [reset.success]: handleResetSuccess,
+        [reset.fail]: handleResetFail,
 
     },
     initialState

@@ -4,6 +4,15 @@
   font-size: 24px;
   border-radius: 7px;
 
+  &-info-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-name-wrapper {
+    display: flex;
+  }
+
   &-cards {
     display: flex;
     flex-wrap: wrap;
@@ -11,11 +20,13 @@
 
   &-name {
     text-align: center;
+    margin-bottom: 10px;
   }
 
   &-footer {
     font-size: 18px;
     text-align: center;
+    margin-top: 10px;
   }
 
   &--active, &--winner {

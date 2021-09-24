@@ -51,6 +51,3 @@ export const gameStart = createRequestAction("GAME_START", (playersNames) =>
         }
     }
 }));
-
-export const incrementPlayersCount = createAction("INCREMENT_PLAYER_COUNT");
-export const decrementPlayersCount = createAction("DECREMENT_PLAYER_COUNT");

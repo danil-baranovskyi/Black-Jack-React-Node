@@ -10,20 +10,35 @@ const games = {};
 const secKey = "ya ne loh, ya smogu";
 
 const gameIdCheckByToken = (token) => {
-    const gameId = jwt.verify(token, secKey, {noTimestamp: true});
+    const gameId = tokenVerify(token);
     return Object.keys(games).includes(gameId.id);
 }
 
-const getIdFromToken = (token) => {
-    return jwt.verify(token, secKey).id;
+const tokenVerify = (token) => {
+    return jwt.verify(token, secKey);
+}
+
+const validCheck = (ctx, requestData) => {
+    if (requestData.playersNames.length < 2) {
+        ctx.throw(422)
+    }
+
+    for (let i = 0; i < requestData.playersNames.length; i++) {
+        if (requestData.playersNames[i].trim().length <= 3) {
+            ctx.throw(422)
+        }
+    }
 }
 
 router.post("/start", (ctx) => {
-    let playersNames = ctx.request.body.playersNames;
-    const gameId = uuidv4();
-    games[gameId] = new Game(playersNames.map((playerName) => new Player(playerName)));
+    const requestData = ctx.request.body;
 
-    const token = jwt.sign({id: gameId}, secKey);
+    validCheck(ctx, requestData);
+
+    const gameId = uuidv4();
+    games[gameId] = new Game(requestData.playersNames.map((playerName) => new Player(playerName)));
+
+    const token = jwt.sign({id: gameId}, secKey, {noTimestamp: true});
     ctx.body = {
         ...games[gameId].getState(),
         token: token
@@ -32,40 +47,46 @@ router.post("/start", (ctx) => {
 
 
 router.post("/state", (ctx) => {
-    const token = ctx.request.body.token;
-    if(gameIdCheckByToken(token)) {
+    const requestData = ctx.request.body;
+
+
+    if(gameIdCheckByToken(requestData.token)) {
+
         ctx.body = {
-            ...games[getIdFromToken(token)].getState()
-        }
+            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
+        };
     }
 });
 
 router.post("/hit", (ctx) => {
-    const token = ctx.request.body.token;
-    if(gameIdCheckByToken(token)) {
-        games[getIdFromToken(token)].hit();
+    const requestData = ctx.request.body;
+
+    if(gameIdCheckByToken(requestData.token)) {
+        games[tokenVerify(requestData.token).id(requestData.token)].hit();
         ctx.body = {
-            ...games[getIdFromToken(token)].getState()
+            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
         }
     }
 })
 
 router.post("/stand", (ctx) => {
-    const token = ctx.request.body.token;
-    if(gameIdCheckByToken(token)) {
-        games[getIdFromToken(token)].stand();
+    const requestData = ctx.request.body;
+
+    if(gameIdCheckByToken(requestData.token)) {
+        games[tokenVerify(requestData.token).id(requestData.token)].stand();
         ctx.body = {
-            ...games[getIdFromToken(token)].getState()
+            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
         }
     }
 })
 
 router.post("/reset", (ctx) => {
-    const token = ctx.request.body.token;
-    if(gameIdCheckByToken(token)) {
-        games[getIdFromToken(token)].reset();
+    const requestData = ctx.request.body;
+
+    if(gameIdCheckByToken(requestData.token)) {
+        games[tokenVerify(requestData.token).id(requestData.token)].reset();
         ctx.body = {
-            ...games[getIdFromToken(token)].getState()
+            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
         }
     }
 });

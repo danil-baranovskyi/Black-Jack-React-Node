@@ -9,7 +9,7 @@ import {token} from "../store/game/selectors.js";
 const App = ({token}) => {
     return (
         <React.Fragment>
-            {token ? <Game/> : <InitPlayers/>}
+            {token !== null  ? <Game/> : <InitPlayers/>}
         </React.Fragment>
     );
 };
