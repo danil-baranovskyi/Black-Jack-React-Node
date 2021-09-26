@@ -32,13 +32,21 @@ const validCheck = (ctx, requestData) => {
 
 router.post("/start", (ctx) => {
     const requestData = ctx.request.body;
-
+    console.log(requestData)
     validCheck(ctx, requestData);
 
+    if (requestData.token) {
+        games[tokenVerify(requestData.token)] = new Game(requestData.playersNames.map((playerName) => new Player(playerName)));
+        ctx.body = {
+            ...games[tokenVerify(requestData.token)].getState(),
+            token: requestData.token
+        };
+    }
     const gameId = uuidv4();
+    const token = jwt.sign({id: gameId}, secKey, {noTimestamp: true});
+
     games[gameId] = new Game(requestData.playersNames.map((playerName) => new Player(playerName)));
 
-    const token = jwt.sign({id: gameId}, secKey, {noTimestamp: true});
     ctx.body = {
         ...games[gameId].getState(),
         token: token
@@ -48,23 +56,21 @@ router.post("/start", (ctx) => {
 
 router.post("/state", (ctx) => {
     const requestData = ctx.request.body;
-
-
+    console.log(requestData)
     if(gameIdCheckByToken(requestData.token)) {
 
         ctx.body = {
-            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
+            ...games[tokenVerify(requestData.token).id].getState()
         };
     }
 });
 
 router.post("/hit", (ctx) => {
     const requestData = ctx.request.body;
-
     if(gameIdCheckByToken(requestData.token)) {
-        games[tokenVerify(requestData.token).id(requestData.token)].hit();
+        games[tokenVerify(requestData.token).id].hit();
         ctx.body = {
-            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
+            ...games[tokenVerify(requestData.token).id].getState()
         }
     }
 })
@@ -73,9 +79,9 @@ router.post("/stand", (ctx) => {
     const requestData = ctx.request.body;
 
     if(gameIdCheckByToken(requestData.token)) {
-        games[tokenVerify(requestData.token).id(requestData.token)].stand();
+        games[tokenVerify(requestData.token).id].stand();
         ctx.body = {
-            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
+            ...games[tokenVerify(requestData.token).id].getState()
         }
     }
 })
@@ -84,9 +90,9 @@ router.post("/reset", (ctx) => {
     const requestData = ctx.request.body;
 
     if(gameIdCheckByToken(requestData.token)) {
-        games[tokenVerify(requestData.token).id(requestData.token)].reset();
+        games[tokenVerify(requestData.token).id].reset();
         ctx.body = {
-            ...games[tokenVerify(requestData.token).id(requestData.token)].getState()
+            ...games[tokenVerify(requestData.token).id].getState()
         }
     }
 });

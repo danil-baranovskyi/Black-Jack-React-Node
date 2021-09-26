@@ -22,10 +22,11 @@ export const token = createSelector(
     state => state.token
 )
 
-export const playersCount = createSelector(
+export const tokenIsValid = createSelector(
     state,
-    state => state.playersCount
+    state => state.tokenIsValid
 )
+
 
 export const players = createSelector(
     state,

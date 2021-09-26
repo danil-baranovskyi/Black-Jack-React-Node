@@ -3,6 +3,7 @@ import {currentState,  gameStart, hit, reset, stand} from "./actions.js";
 
 const initialState = {
     token: localStorage.getItem('token') || null,
+    tokenIsValid: true,
     isLoading: false,
     players : [],
     winners: null,
@@ -13,6 +14,7 @@ const handleGameStartSuccess = (state, {payload: {data}}) => {
     localStorage.setItem("token", data.token);
     return {
         ...state,
+        tokenIsValid: true,
         ...data
     }
 }
@@ -28,16 +30,16 @@ const handleCurrentStateSuccess = (state, {payload: {data}}) => {
     return {
         ...state,
         isLoading: false,
+        tokenIsValid: true,
         ...data
     };
 }
 
-const handleCurrentStateFail = (state, action) => {
+const handleCurrentStateFail = (state) => {
     console.log("FAIL!!!");
-    console.log(action)
-    localStorage.removeItem("token");
     return {
         ...state,
+        tokenIsValid: false
     };
 }
 //=========
@@ -49,9 +51,8 @@ const handleHitSuccess = (state, {payload: {data}}) => {
     };
 }
 
-const handleHitFail = (state, action) => {
+const handleHitFail = (state) => {
     console.log("FAIL!!!");
-    localStorage.removeItem("token");
     return {
         ...state,
     };
@@ -66,9 +67,8 @@ const handleStandSuccess = (state, {payload: {data}}) => {
     };
 }
 
-const handleStandFail = (state, action) => {
+const handleStandFail = (state) => {
     console.log("Fail");
-    localStorage.removeItem("token");
     return {
         ...state,
     };
@@ -84,7 +84,6 @@ const handleResetSuccess = (state, {payload: {data}}) => {
 }
 
 const handleResetFail = (state) => {
-    localStorage.removeItem("token");
     return {
         ...state,
     };
