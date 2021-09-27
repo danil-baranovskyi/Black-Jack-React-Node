@@ -1,4 +1,5 @@
 import {createRequestAction} from "../helpers/createRequestAction.js";
+import {createAction} from "redux-actions";
 
 export const currentState = createRequestAction("CURRENT_STATE", () => ({
     request: {
@@ -51,3 +52,16 @@ export const gameStart = createRequestAction("GAME_START", (playersNames) =>
         }
     }
 }));
+
+export const gameResults = createRequestAction("GAME_RESULTS", () =>
+    ({
+        request: {
+            method: "get",
+            url: '/results',
+            data: {
+                token: localStorage.getItem('token') || null,
+            }
+        }
+    }));
+
+export const removeGameResults = createAction("REMOVE_GAME_RESULTS");

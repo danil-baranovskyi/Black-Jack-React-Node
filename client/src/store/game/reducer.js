@@ -1,13 +1,28 @@
 import {handleActions} from "redux-actions";
-import {currentState,  gameStart, hit, reset, stand} from "./actions.js";
+import {currentState, gameResults, gameStart, hit, removeGameResults, reset, stand} from "./actions.js";
 
 const initialState = {
     token: localStorage.getItem('token') || null,
     tokenIsValid: true,
     isLoading: false,
-    players : [],
+    players: [],
     winners: null,
     currentPlayer: null,
+    gameResults: [],
+}
+
+const handleRemoveGameResults = (state) => {
+    return {
+        ...state,
+        gameResults: [],
+    }
+}
+
+const handleGameResultsSuccess = (state, {payload: {data}}) => {
+    return {
+        ...state,
+        gameResults: data,
+    }
 }
 
 const handleGameStartSuccess = (state, {payload: {data}}) => {
@@ -110,6 +125,9 @@ const game = handleActions(
         [reset.success]: handleResetSuccess,
         [reset.fail]: handleResetFail,
 
+        [gameResults.success]: handleGameResultsSuccess,
+
+        [removeGameResults]: handleRemoveGameResults,
     },
     initialState
 )

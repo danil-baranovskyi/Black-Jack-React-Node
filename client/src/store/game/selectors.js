@@ -27,6 +27,10 @@ export const tokenIsValid = createSelector(
     state => state.tokenIsValid
 )
 
+export const results = createSelector(
+    state,
+    state => state.gameResults,
+)
 
 export const players = createSelector(
     state,

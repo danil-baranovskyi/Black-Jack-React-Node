@@ -10,11 +10,9 @@ const Hit = ({hit, winners, isLoading}) => {
     }, [winners, isLoading]);
 
     return (
-        <React.Fragment>
-            <button className="manipulation-btn hit-btn" onClick={hit} disabled={disabled}>
-                Hit
-            </button>
-        </React.Fragment>
+        <button className="manipulation-btn hit-btn" onClick={hit} disabled={disabled}>
+            Hit
+        </button>
     );
 }
 

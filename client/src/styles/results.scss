@@ -1,0 +1,41 @@
+.results-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.6;
+  z-index: 1;
+  scroll-behavior: unset;
+}
+
+.results-body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100vw - 30%);
+  height: calc(100vh - 30%);
+  background-color: #fff;
+  opacity: 1;
+  z-index: 5;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+
+.game-result {
+  margin: 10px 0;
+  padding: 15px 15px;
+  background-color: #cccccc;
+  border-radius: 15px;
+}
+
+.show-history-btn {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+}

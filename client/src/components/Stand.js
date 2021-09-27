@@ -10,11 +10,9 @@ const Stand = ({stand, winners, isLoading}) => {
     }, [winners, isLoading])
 
     return (
-        <React.Fragment>
-            <button className="manipulation-btn stand-btn" onClick={stand} disabled={disabled}>
-                Stand
-            </button>
-        </React.Fragment>
+        <button className="manipulation-btn stand-btn" onClick={stand} disabled={disabled}>
+            Stand
+        </button>
     );
 }
 

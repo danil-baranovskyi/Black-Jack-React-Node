@@ -16,6 +16,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
+    "mongoose": "^6.0.7",
     "nodemon": "^2.0.12",
     "redux-axios-middleware": "^4.0.1",
     "uuid": "^8.3.2"
